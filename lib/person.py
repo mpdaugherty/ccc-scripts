@@ -11,8 +11,18 @@ class Address:
   # state
   # zip
   # country
-  def a():
-    return 'x'
+  def __init__(self, account, **kwargs):
+    for property in ['type', 'street', 'city', 'state', 'zip', 'country']:
+      self.__dict__[property] = kwargs.get(property)
+
+  def to_a():
+    return [
+        self.type,
+        self.street,
+        self.city,
+        self.state,
+        self.zip,
+        self.country]
 
 class Contact:
   # Has properties
@@ -32,6 +42,8 @@ class Contact:
       self.__dict__[property] = kwargs.get(property)
     self.primary_address = self.primary_address or Address()
     self.secondary_address = self.secondary_address or Address()
+    self.account.add_contact(self)
+
 
   def to_array(self):
     return [
@@ -57,6 +69,9 @@ class Account:
     self.contacts = []
 
     Account.all_accounts[self.name] = self
+
+  def add_contact(self, contact):
+      self.contacts.append(contact)
 
   def to_a(self):
       return [
