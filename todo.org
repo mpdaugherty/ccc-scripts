@@ -1,1 +1,13 @@
 * TODO Figure out how to match names across sheets and pick out duplicates
+* DONE Start a final sheet for contacts and start parsing individual sheets into it. Keep it alphabetized.
+  CLOSED: [2014-07-05 Sat 14:35]
+#+BEGIN_SRC
+Last Name, First Name, Title, Email, Account Name, Home Address, Home City, Home State, Home Country, Other Address, Other City, Other State, Other Country, Household Name, UID, Total Donation Amount, Last Donation Date
+#+END_SRC
+
+
+* TODO Make a "contact" object that can be added to a hashmap and contains all info
+Alright, we are using the 1-to-1 contact model in Salesforce, which
+means each individual contact should have an account with the same name
+* TODO Make it parseable from an array
+* TODO Make it renderable to an array

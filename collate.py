@@ -4,20 +4,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 
 import csv, re
-
-# How to model a person in here?  Lets see what the result should be
-class Person:
-  def __init__(first_name):
-    self.first_name = first_name
-
-  def __init__eq__(self, other):
-      isinstance(other, self.__class__) and \
-          self.first_name == other.first_name and \
-          self.last_name == other.last_name and \
-          (self.address == other.address or self.address is None or other.address is None)
-
-  def __ne__(self, other):
-      return not self.__eq__(other)
+from lib.person import Contact
 
 class PersonRepository:
   people = []
