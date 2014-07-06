@@ -8,6 +8,18 @@ Last Name, First Name, Title, Email, Account Name, Home Address, Home City, Home
 
 * TODO Make a "contact" object that can be added to a hashmap and contains all info
 Alright, we are using the 1-to-1 contact model in Salesforce, which
-means each individual contact should have an account with the same name
+means each individual contact should have an account with the same
+name
+
+# Test script
+#+BEGIN_SRC python
+from person import Account
+x = Account(name='Daugherty and Yang', type='Other', phone='443-228-8288')
+Account.all_accounts.values()
+x.billing_address.type = 'Home'
+x.billing_address.street = '2000 Post Street'
+Account.write_all()
+exit()
+#+END_SRC
 * TODO Make it parseable from an array
 * TODO Make it renderable to an array
