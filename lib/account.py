@@ -4,65 +4,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 
 import csv, os
-
-class Address:
-  # Has properties:
-  # type (Work, Home, Other)
-  # street
-  # city
-  # state
-  # zip
-  # country
-  def __init__(self, **kwargs):
-    for property in ['type', 'street', 'city', 'state', 'zip', 'country']:
-      self.__dict__[property] = kwargs.get(property)
-
-  def to_a(self):
-    return [
-        self.type,
-        self.street,
-        self.city,
-        self.state,
-        self.zip,
-        self.country]
-
-  @staticmethod
-  def load_from_array(arr):
-      return Address(type=   arr[0],
-                     street= arr[1],
-                     city=   arr[2],
-                     state=  arr[3],
-                     zip=    arr[4],
-                     country=arr[5])
-
-class Contact:
-  # Has properties
-  # account (from which we get account_name)
-  # first_name, last_name, title
-  # honorific (Mr. Mrs. Ms. Dr. Prof.)
-  # birthdate (not available in our data, so probably not)
-  #### member type (Board, C-Cubed)
-  # member_last_date
-  # member_level
-  # member_join_date
-  # primary_address
-  # secondary_address
-  def __init__(self, account, **kwargs):
-    self.account = account
-    for property in ['first_name', 'last_name', 'title', 'honorific', 'member_level', 'member_last_date', 'member_join_date', 'primary_address', 'secondary_address']:
-      self.__dict__[property] = kwargs.get(property)
-    self.primary_address = self.primary_address or Address()
-    self.secondary_address = self.secondary_address or Address()
-    self.account.add_contact(self)
-
-  def to_array(self):
-    return [
-        self.last_name,
-        self.first_name,
-        self.honorific,
-        self.title,
-        None, #Email,
-        self.account.name] + self.primary_address.to_a() + self.secondary_address.to_a()
+from address import Address
 
 class Account:
   # Has properties:
