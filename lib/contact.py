@@ -4,8 +4,8 @@ from __future__ import absolute_import
 from __future__ import print_function
 
 import csv, os
-from account import Account
-from address import Address
+from ccc.lib.account import Account
+from ccc.lib.address import Address
 
 class Contact:
   # Has properties
@@ -55,7 +55,7 @@ class Contact:
                                    honorific = row[2],
                                    title = row[3],
                                    email = row[4],
-                                   account = Account.get(row[5]) or Account(name = '{} {}'.format(row[1], row[0]),
+                                   account = Account.get(row[5]) or Account(name = '{} {}'.format(row[1], row[0])),
                                    primary_address = Address.load_from_array(row[6:12]),
                                    secondary_address = Address.load_from_array(row[12:18]))
 

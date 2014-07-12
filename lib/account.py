@@ -4,7 +4,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 
 import csv, os
-from address import Address
+from ccc.lib.address import Address
 
 class Account:
   # Has properties:
