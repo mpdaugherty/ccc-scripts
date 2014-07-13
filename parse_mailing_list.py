@@ -65,29 +65,52 @@ def is_individual(first_name, last_name, organization):
 
     return True
 
-def handle_individual(first_name, last_name, organization, street, city, state, zip_code, country, title):
-    first_name = first_name.replace(title, '').strip()
-    last_name = last_name.replace(title, '').strip()
+honorific_regex = re.compile('(Mr\.)|(Mrs\.)|(Ms\.)|(Dr\.)|(Prof\.)')
+def extract_honorific(name):
+    match = honorific_regex.search(name)
+    if match:
+        return match.group(), honorific_regex.sub('', name).strip()
+    else:
+        return None, name
 
-    account_name = organization or "{} {}".format(first_name, last_name)
-    is_individual = organization != account_name
-    account_type = 'Individual' if is_individual else 'Other'
-    account_address = Address(type = 'Home' if is_individual else 'Work',
-                               street = street,
-                               city = city,
-                               state = state,
-                               zip = zip_code,
-                               country = country)
+def handle_individual(first_name, last_name, organization, street, city, state, zip_code, country, title):
+    honorific, first_name = extract_honorific(first_name)
+
+    account_name = "{} {}".format(first_name, last_name)
+    account_type = 'Individual'
+    address = Address(type = 'Home',
+                      street = street,
+                      city = city,
+                      state = state,
+                      zip = zip_code,
+                      country = country)
 
     account = Account.get_or_create(name=account_name,
                                     type='Individual',
-                                    shipping_address = account_address)
+                                    shipping_address = address)
+
+    contact = Contact.get_or_create(last_name  = last_name,
+                                    first_name = first_name,
+                                    honorific  = honorific,
+                                    title      = title,
+                                    account    = account,
+                                    primary_address = address)
 
 def is_organization(first_name, last_name, organization):
     return not(first_name or last_name) and bool(organization)
 
 def handle_organization(first_name, last_name, organization, street, city, state, zip_code, country, title):
-    False
+    address = Address(type = 'Work',
+                      street = street,
+                      city = city,
+                      state = state,
+                      zip = zip_code,
+                      country = country)
+
+    account = Account.get_or_create(name=organization,
+                                    type='Other',
+                                    shipping_address = address,
+                                    billing_address = address)
 
 def is_multiple(first_name, last_name, organization):
     return can_split(first_name)
