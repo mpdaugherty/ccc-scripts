@@ -6,16 +6,6 @@ from __future__ import print_function
 import csv, re
 from lib.person import Contact
 
-class PersonRepository:
-  people = []
-  def find(first_name, last_name, address = None):
-    for person in PeopleRepository.people:
-      if person.first_name == first_name and person.last_name == last_name:
-        return person
-
-# Import all the people from Gharrity's contacts
-#csv.reader('./gharrity_contacts.csv')
-
 # Import all the people from the master mailing list
 people = []
 not_people = []

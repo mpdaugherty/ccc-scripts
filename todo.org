@@ -5,8 +5,8 @@
 Last Name, First Name, Title, Email, Account Name, Home Address, Home City, Home State, Home Country, Other Address, Other City, Other State, Other Country, Household Name, UID, Total Donation Amount, Last Donation Date
 #+END_SRC
 
-
-* TODO Make a "contact" object that can be added to a hashmap and contains all info
+* DONE Make a "contact" object that can be added to a hashmap and contains all info
+  CLOSED: [2014-07-12 Sat 17:22]
 Alright, we are using the 1-to-1 contact model in Salesforce, which
 means each individual contact should have an account with the same
 name
@@ -21,5 +21,10 @@ x.billing_address.street = '2000 Post Street'
 Account.write_all()
 exit()
 #+END_SRC
-* TODO Make it parseable from an array
-* TODO Make it renderable to an array
+* DONE Make it parseable from an array
+  CLOSED: [2014-07-12 Sat 17:22]
+* DONE Make it renderable to an array
+  CLOSED: [2014-07-12 Sat 17:22]
+
+* TODO Import data sources to our two spreadsheets
+** TODO Mailing list master page
