@@ -39,14 +39,14 @@ class Account:
     full_name = '{} {}'.format(kwargs['first_name'], kwargs['last_name'])
     return self.contacts.get(full_name)
 
-  def all_contacts():
-    self.contacts.values()
+  def all_contacts(self):
+    return self.contacts.values()
 
   def to_a(self):
       return [
-          self.name,
-          self.type,
-          self.phone] + self.billing_address.to_a() +  self.shipping_address.to_a()
+          self.name or '',
+          self.type or '',
+          self.phone or ''] + self.billing_address.to_a() +  self.shipping_address.to_a()
 
 
   @classmethod
@@ -82,5 +82,6 @@ class Account:
       with open(Account.data_location, 'wb') as csvfile:
           writer = csv.writer(csvfile)
           writer.writerow(['Name', 'Type', 'Phone', 'Billing Address Type', 'Billing Street', 'Billing City', 'Billing State', 'Billing Zip', 'Billing Country', 'Shipping Address Type', 'Shipping Street', 'Shipping City', 'Shipping State', 'Shipping Zip', 'Shipping Country'])
-          writer.writerows([acct.to_a() for acct in Account.all_accounts.values()])
+          for acct in Account.all_accounts.values():
+            writer.writerow([unicode(s).encode('utf-8') for s in acct.to_a()])
 

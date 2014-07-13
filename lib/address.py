@@ -17,12 +17,12 @@ class Address:
 
   def to_a(self):
     return [
-        self.type,
-        self.street,
-        self.city,
-        self.state,
-        self.zip,
-        self.country]
+        self.type or '',
+        self.street or '',
+        self.city or '',
+        self.state or '',
+        self.zip or '',
+        self.country or '']
 
   @staticmethod
   def load_from_array(arr):

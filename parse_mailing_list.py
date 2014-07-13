@@ -23,6 +23,9 @@ def main():
             row = [field.strip().decode('utf-8') for field in row]
             parse_row(row)
 
+    Account.write_all()
+    Contact.write_all()
+
 def parse_row(row):
     first_name = row[0]
     last_name = row[1]

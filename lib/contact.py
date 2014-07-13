@@ -20,7 +20,7 @@ class Contact:
   # primary_address
   # secondary_address
 
-  data_location = os.path.dirname(os.path.realpath(__file__)) + '/../final_data/final_accounts.csv'
+  data_location = os.path.dirname(os.path.realpath(__file__)) + '/../final_data/final_contacts.csv'
 
   def __init__(self, account, **kwargs):
     self.account = account
@@ -32,11 +32,11 @@ class Contact:
 
   def to_a(self):
     return [
-        self.last_name,
-        self.first_name,
-        self.honorific,
-        self.title,
-        None, #Email,
+        self.last_name or '',
+        self.first_name or '',
+        self.honorific or '',
+        self.title or '',
+        '', #Email,
         self.account.name] + self.primary_address.to_a() + self.secondary_address.to_a()
 
   def full_name(first_name, last_name):
@@ -76,5 +76,6 @@ class Contact:
           writer = csv.writer(csvfile)
           writer.writerow(['Last Name', 'First Name', 'Honorific', 'Title', 'Email', 'Account Name', 'Home Address Type', 'Home Street', 'Home City', 'Home State', 'Home Country', 'Other Address Type', 'Other Street', 'Other City', 'Other State', 'Other Country'])
           for acct in Account.all_accounts.values():
-              writer.writerows([contact.to_a() for contact in acct.all_contacts()])
+            for contact in acct.all_contacts():
+              writer.writerow([unicode(s).encode('utf-8') for s in contact.to_a()])
 
