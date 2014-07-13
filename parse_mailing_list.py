@@ -52,12 +52,13 @@ def parse_row(row):
         print('Could not parse {}'.format(','.join(row)))
 
 def can_split(name):
-    split_keys = [' & ', ' and ']
-    for k in split_keys:
-        split_names = name.split(k)
-        if len(split_names) == 2:
-            return True
+    if len(split_names(name)) > 1:
+        return True
     False
+
+split_name_regex = re.compile(' & | and ')
+def split_names(name):
+    return [s.strip() for s in split_name_regex.split(name)]
 
 def is_individual(first_name, last_name, organization):
     if not(first_name and last_name):
@@ -119,7 +120,36 @@ def is_multiple(first_name, last_name, organization):
     return can_split(first_name)
 
 def handle_multiple(first_name, last_name, organization, street, city, state, zip_code, country, title):
-    False
+    account_name = organization or '{} Household ({})'.format(last_name, first_name)
+    if not last_name:
+        account_name = '{} Household'.format(first_name)
+
+    address = Address(type = 'Work' if organization else 'Home',
+                      street = street,
+                      city = city,
+                      state = state,
+                      zip = zip_code,
+                      country = country)
+
+    account = Account.get_or_create(name=account_name,
+                                    type='Other',
+                                    shipping_address = address,
+                                    billing_address = address if organization else None)
+
+    first_names = split_names(first_name)
+    if last_name:
+        for name in first_names:
+            honorific, name = extract_honorific(name)
+            contact = Contact.get_or_create(account,
+                                            last_name  = last_name,
+                                            first_name = name,
+                                            honorific  = honorific,
+                                            title      = title,
+                                            primary_address = address)
+    else:
+        print( '--------------------------------------------------------------------------------')
+        print(first_names)
+
 
 main()
 #for account in Account.all_accounts.values():
