@@ -82,7 +82,7 @@ class Account:
       with open(Account.data_location, 'wb') as csvfile:
           writer = csv.writer(csvfile)
           writer.writerow(['Name', 'Type', 'Phone', 'Billing Address Type', 'Billing Street', 'Billing City', 'Billing State', 'Billing Zip', 'Billing Country', 'Shipping Address Type', 'Shipping Street', 'Shipping City', 'Shipping State', 'Shipping Zip', 'Shipping Country'])
-          for acct in Account.all_accounts.values():
+          for acct in sorted(Account.all_accounts.values(), key=lambda acct: acct.name):
             try:
               writer.writerow([unicode(s).encode('utf-8') for s in acct.to_a()])
             except:
