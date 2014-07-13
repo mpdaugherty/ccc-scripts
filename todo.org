@@ -27,4 +27,8 @@ exit()
   CLOSED: [2014-07-12 Sat 17:22]
 
 * TODO Import data sources to our two spreadsheets
-** TODO Mailing list master page
+** DONE Mailing list master page
+   CLOSED: [2014-07-13 Sun 13:54]
+
+** TODO Mailing list confirmed page
+** TODO 2013 tax report
