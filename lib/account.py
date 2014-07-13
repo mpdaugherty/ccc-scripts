@@ -22,12 +22,25 @@ class Account:
       self.__dict__[property] = kwargs.get(property)
     self.billing_address = self.billing_address or Address()
     self.shipping_address = self.shipping_address or Address()
-    self.contacts = []
+    self.contacts = {}
 
     Account.all_accounts[self.name] = self
 
-  def add_contact(self, contact):
-      self.contacts.append(contact)
+  def add_contact(self, new_contact):
+      contact = self.contacts.get(new_contact.full_name)
+      if not contact:
+        self.contacts[new_contact.full_name] = new_contact
+
+  def get_or_create_contact(self, **kwargs):
+      full_name = '{} {}'.format(kwargs['first_name'], kwargs['last_name'])
+      contact = self.contacts.get(full_name)
+      if not contact:
+        kwargs['account'] = self
+        contact = Contact(**kwargs)
+      return contact
+
+  def all_contacts():
+    self.contacts.values()
 
   def to_a(self):
       return [

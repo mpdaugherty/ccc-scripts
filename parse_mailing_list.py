@@ -89,12 +89,11 @@ def handle_individual(first_name, last_name, organization, street, city, state, 
                                     type='Individual',
                                     shipping_address = address)
 
-    contact = Contact.get_or_create(last_name  = last_name,
-                                    first_name = first_name,
-                                    honorific  = honorific,
-                                    title      = title,
-                                    account    = account,
-                                    primary_address = address)
+    contact = account.get_or_create_contact(last_name  = last_name,
+                                            first_name = first_name,
+                                            honorific  = honorific,
+                                            title      = title,
+                                            primary_address = address)
 
 def is_organization(first_name, last_name, organization):
     return not(first_name or last_name) and bool(organization)
