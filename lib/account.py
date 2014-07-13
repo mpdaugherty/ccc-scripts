@@ -83,5 +83,9 @@ class Account:
           writer = csv.writer(csvfile)
           writer.writerow(['Name', 'Type', 'Phone', 'Billing Address Type', 'Billing Street', 'Billing City', 'Billing State', 'Billing Zip', 'Billing Country', 'Shipping Address Type', 'Shipping Street', 'Shipping City', 'Shipping State', 'Shipping Zip', 'Shipping Country'])
           for acct in Account.all_accounts.values():
-            writer.writerow([unicode(s).encode('utf-8') for s in acct.to_a()])
+            try:
+              writer.writerow([unicode(s).encode('utf-8') for s in acct.to_a()])
+            except:
+              print('#################### Could not encode this account ####################')
+              print(acct.to_a())
 

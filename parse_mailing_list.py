@@ -147,8 +147,16 @@ def handle_multiple(first_name, last_name, organization, street, city, state, zi
                                             title      = title,
                                             primary_address = address)
     else:
-        print( '--------------------------------------------------------------------------------')
-        print(first_names)
+        for name in first_names:
+            honorific, name = extract_honorific(name)
+            lname = name.split(' ')[-1].strip()
+            fname = ' '.join(name.split(' ')[0:-1]).strip()
+            contact = Contact.get_or_create(account,
+                                            last_name  = lname,
+                                            first_name = fname,
+                                            honorific  = honorific,
+                                            title      = title,
+                                            primary_address = address)
 
 
 main()
