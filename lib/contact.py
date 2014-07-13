@@ -43,6 +43,14 @@ class Contact:
     '{} {}'
 
   @staticmethod
+  def get_or_create(account, **kwargs):
+    contact = account.get_contact(kwargs['first_name'], kwargs['last_name'])
+    if not contact:
+      kwargs['account'] = account
+      contact = Contact(**kwargs)
+    return contact
+
+  @staticmethod
   def load_all():
       '''Note: Account.load_all() must be called before this'''
       with open(Contact.data_location, 'rb') as csvfile:

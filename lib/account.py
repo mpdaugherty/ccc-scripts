@@ -31,13 +31,13 @@ class Account:
       if not contact:
         self.contacts[new_contact.full_name] = new_contact
 
+  def get_contact(self, first_name, last_name):
+      full_name = '{} {}'.format(first_name, last_name)
+      return self.contacts.get(full_name)
+
   def get_or_create_contact(self, **kwargs):
-      full_name = '{} {}'.format(kwargs['first_name'], kwargs['last_name'])
-      contact = self.contacts.get(full_name)
-      if not contact:
-        kwargs['account'] = self
-        contact = Contact(**kwargs)
-      return contact
+    full_name = '{} {}'.format(kwargs['first_name'], kwargs['last_name'])
+    return self.contacts.get(full_name)
 
   def all_contacts():
     self.contacts.values()
