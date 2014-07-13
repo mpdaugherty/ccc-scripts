@@ -90,7 +90,7 @@ def handle_organization(first_name, last_name, organization, street, city, state
     False
 
 def is_multiple(first_name, last_name, organization):
-    False
+    return can_split(first_name)
 
 def handle_multiple(first_name, last_name, organization, street, city, state, zip_code, country, title):
     False
