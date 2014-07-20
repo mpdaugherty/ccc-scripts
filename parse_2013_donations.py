@@ -31,7 +31,7 @@ def main():
 
     with open(data_folder + temporary_filename, 'wb') as csvfile:
           writer = csv.writer(csvfile)
-          writer.writerow(['Type', 'Date', 'Num', 'Name', 'Memo', 'Pay Method', 'Amount'])
+          writer.writerow(['Type', 'Date', 'Num', 'Name', 'Memo', 'Pay Method', 'Amount', 'Reason not imported'])
           for row in unsure_rows:
             try:
               writer.writerow(row)
@@ -52,9 +52,26 @@ def parse_row(row, unsure_rows):
     amount = row[7]
 
     if 'Deposit' == log_type:
-        print('--------------------------------------------------')
+        contact, is_definite = Contact.fuzzy_match(donator_name, address)
+        if is_definite:
+            print('found match')
+            # Add a donation that matches this contact
+        elif None == contact:
+            account, is_definite = Account.fuzzy_match(donator_name, address)
+            if is_definite:
+                #print('found account match')
+                pass
+                # Add a donation that matches this account
+
+        if None == contact and None == account:
+            # TODO Make a new contact / account and import it
+            pass
+            #print('making new contact and account')
+        else:
+            match = contact or account
+            unsure_rows.append(row + ['Possible match: {}'.format(match.to_a())])
     else:
         # I don't know what to do with General Journals or Bills
-        unsure_rows.append(row)
+        unsure_rows.append(row + ['Unknown log type'])
 
 main()

@@ -20,6 +20,8 @@ class Contact:
   # primary_address
   # secondary_address
 
+  all_contacts = [] # Utility for searching, nothing more
+
   data_location = os.path.dirname(os.path.realpath(__file__)) + '/../final_data/final_contacts.csv'
 
   def __init__(self, account, **kwargs):
@@ -29,6 +31,7 @@ class Contact:
     self.primary_address = self.primary_address or Address()
     self.secondary_address = self.secondary_address or Address()
     self.account.add_contact(self)
+    Contact.all_contacts.append(self)
 
   def to_a(self):
     return [
@@ -51,6 +54,31 @@ class Contact:
     return contact
 
   @staticmethod
+  def fuzzy_match(new_name, new_address):
+    for contact in Contact.all_contacts:
+      address_match = False
+      name_match = False
+      name_almost_match = False
+
+      for address in [contact.primary_address, contact.secondary_address]:
+        if address_match or address is None:
+          next
+
+        old_address = address.street
+        if len(new_address) > 0 and len(old_address) > 0:
+          address_match = (old_address in new_address) or (new_address in old_address)
+
+      # Of course, this is just temporary
+      if address_match:
+        return contact, True
+      else:
+        return None, False
+
+      #name_match = len(new_name) > 0 && new_name == full_name
+
+      #name_almost_match = len(new_name) > 0 and new_name.contains?(last_name) and new_name.contains(first_name)
+
+  @staticmethod
   def load_all():
       '''Note: Account.load_all() must be called before this'''
       with open(Contact.data_location, 'rb') as csvfile:
@@ -62,13 +90,14 @@ class Contact:
   @staticmethod
   def load_from_row(row):
     account = Account.get(row[5]) or Account(name = '{} {}'.format(row[1], row[0]))
-    account.get_or_create_contact(last_name=row[0],
-                                  first_name = row[1],
-                                  honorific = row[2],
-                                  title = row[3],
-                                  email = row[4],
-                                  primary_address = Address.load_from_array(row[6:12]),
-                                  secondary_address = Address.load_from_array(row[12:18]))
+    Contact.get_or_create(account,
+                          last_name=row[0],
+                          first_name = row[1],
+                          honorific = row[2],
+                          title = row[3],
+                          email = row[4],
+                          primary_address = Address.load_from_array(row[6:12]),
+                          secondary_address = Address.load_from_array(row[12:18]))
 
   @staticmethod
   def write_all():

@@ -35,10 +35,6 @@ class Account:
       full_name = '{} {}'.format(first_name, last_name)
       return self.contacts.get(full_name)
 
-  def get_or_create_contact(self, **kwargs):
-    full_name = '{} {}'.format(kwargs['first_name'], kwargs['last_name'])
-    return self.contacts.get(full_name)
-
   def all_contacts(self):
     return self.contacts.values()
 
@@ -52,6 +48,10 @@ class Account:
   @classmethod
   def get(cls, name):
     return cls.all_accounts.get(name)
+
+  @classmethod
+  def fuzzy_match(cls, new_name, new_address_street):
+    return None, False
 
   @classmethod
   def get_or_create(cls, **kwargs):
