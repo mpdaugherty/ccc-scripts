@@ -57,12 +57,8 @@ These are linked to account have a name, amount, close date, stage (Posted =
 * DONE Test importing 10 donations
   CLOSED: [2014-07-19 Sat 18:10]
 Had to use dataloader.io - signed in with Judy's salesforce account
-* TODO Import data sources to our two spreadsheets
-** DONE Mailing list master page
-   CLOSED: [2014-07-13 Sun 13:54]
-** TODO 2013 tax report
-** TODO Mailing list confirmed page
-* TODO Figure out how to match names across sheets and pick out duplicates
+* DONE Figure out how to match names across sheets and pick out duplicates
+  CLOSED: [2014-07-20 Sun 11:26]
 Given new_name and new_address
 
 #+BEGIN_SRC
@@ -76,5 +72,15 @@ name_almost_match = len(new_name) > 0 and new_name.contains?(last_name) and new_
 #+BEGIN_SRC
 python -m ccc.parse_2013_donations
 #+END_SRC
-
+* DONE Import data sources to our two spreadsheets
+  CLOSED: [2014-07-20 Sun 11:26]
+** DONE Mailing list master page
+   CLOSED: [2014-07-13 Sun 13:54]
+** TODO 2013 tax report
+** TODO Mailing list confirmed page
+* DONE First import
+* TODO Move the existing 'final_donations' etc. spreadsheets
+* TODO Move the existing 2013_individual_donations spreadsheet and work only from the unsure spreadsheet for the next batch
+* TODO Have Judy clean the new unsure donations spreadsheet
+* TODO Do more importing with dataloader.io
 
