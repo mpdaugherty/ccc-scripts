@@ -54,7 +54,9 @@ def parse_row(row, unsure_rows):
     if 'Deposit' == log_type:
         contact, is_definite = Contact.fuzzy_match(donator_name, address)
         if is_definite:
-            print('found match')
+            print('--------------------------------------------------------------------------------')
+            print('Old Contact: {} {}, {}, {}'.format(contact.first_name, contact.last_name, contact.account.name, contact.primary_address.to_a()))
+            print('New Contact: {}, {}'.format(donator_name, address))
             # Add a donation that matches this contact
         elif None == contact:
             account, is_definite = Account.fuzzy_match(donator_name, address)
@@ -65,9 +67,8 @@ def parse_row(row, unsure_rows):
 
         if None == contact and None == account:
             # TODO Make a new contact / account and import it
-            pass
-            #print('making new contact and account')
-        else:
+            print('making new contact and account')
+        elif not(is_definite):
             match = contact or account
             unsure_rows.append(row + ['Possible match: {}'.format(match.to_a())])
     else:

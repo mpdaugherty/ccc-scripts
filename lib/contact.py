@@ -55,6 +55,8 @@ class Contact:
 
   @staticmethod
   def fuzzy_match(new_name, new_address):
+    # Don't return possible matches until the very end because a better, absolute match may be available
+    possible_match = None
     for contact in Contact.all_contacts:
       address_match = False
       name_match = False
@@ -68,15 +70,24 @@ class Contact:
         if len(new_address) > 0 and len(old_address) > 0:
           address_match = (old_address in new_address) or (new_address in old_address)
 
-      # Of course, this is just temporary
+      name_match = len(new_name) > 0 and new_name == contact.full_name
+
+      name_parts = contact.first_name.split() + contact.last_name.split()
+      new_name_parts = new_name.split()
+      common_parts = [part for part in name_parts if part in new_name_parts]
+      name_almost_match = len(common_parts) >= 2
+
+      if (name_match or name_almost_match):
+        if address_match:
+          return contact, True
+        else:
+          possible_match = contact
+
       if address_match:
-        return contact, True
-      else:
-        return None, False
+        possible_match = contact
 
-      #name_match = len(new_name) > 0 && new_name == full_name
+    return possible_match, False
 
-      #name_almost_match = len(new_name) > 0 and new_name.contains?(last_name) and new_name.contains(first_name)
 
   @staticmethod
   def load_all():
