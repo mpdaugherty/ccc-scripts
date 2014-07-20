@@ -13,7 +13,7 @@ class Address:
   # country
   def __init__(self, **kwargs):
     for property in ['type', 'street', 'city', 'state', 'zip', 'country']:
-      self.__dict__[property] = kwargs.get(property)
+      self.__dict__[property] = kwargs.get(property) or ''
 
   def to_a(self):
     return [

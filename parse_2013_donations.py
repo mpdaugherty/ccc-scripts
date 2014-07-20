@@ -45,7 +45,7 @@ def parse_row(row, unsure_rows):
     log_type = row[0]
     date = row[1]
     log_number = row[2] # not used
-    donator_name = row[3]
+    donator_name = row[3].replace('(AR)', '').replace('(C)','').strip()
     address = row[4]
     description = row[5]
     method = row[6]
@@ -54,20 +54,30 @@ def parse_row(row, unsure_rows):
     if 'Deposit' == log_type:
         contact, is_definite = Contact.fuzzy_match(donator_name, address)
         if is_definite:
-            print('--------------------------------------------------------------------------------')
-            print('Old Contact: {} {}, {}, {}'.format(contact.first_name, contact.last_name, contact.account.name, contact.primary_address.to_a()))
-            print('New Contact: {}, {}'.format(donator_name, address))
+            #print('--------------------------------------------------------------------------------')
+            #print('Old Contact: {} {}, {}, {}'.format(contact.first_name, contact.last_name, contact.account.name, contact.primary_address.to_a()))
+            #print('New Contact: {}, {}'.format(donator_name, address))
             # Add a donation that matches this contact
-        elif None == contact:
+            pass
+        elif None == contact: # ie there was not even a fuzzy contact match
             account, is_definite = Account.fuzzy_match(donator_name, address)
             if is_definite:
                 #print('found account match')
-                pass
+                print('------------------------------------------------------------')
+            elif account:
+                print('--------------------Fuzzy Account--------------------')
+
+            if account:
+                print('Account: {} {}'.format(account.name, account.shipping_address.to_a()))
+                print('New Contact: {}, {}'.format(donator_name, address))
                 # Add a donation that matches this account
 
         if None == contact and None == account:
             # TODO Make a new contact / account and import it
-            print('making new contact and account')
+            #print('making new contact and account')
+            if len(donator_name) == 0 or len(address) == 0:
+                unsure_rows.append(row + ['Empty name or address'])
+            pass
         elif not(is_definite):
             match = contact or account
             unsure_rows.append(row + ['Possible match: {}'.format(match.to_a())])

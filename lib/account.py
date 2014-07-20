@@ -50,8 +50,39 @@ class Account:
     return cls.all_accounts.get(name)
 
   @classmethod
-  def fuzzy_match(cls, new_name, new_address_street):
-    return None, False
+  def fuzzy_match(cls, new_name, new_address):
+    # Don't return possible matches until the very end because a better, absolute match may be available
+    possible_match = None
+    for account in Account.all_accounts.values():
+      address_match = False
+      name_match = False
+      name_almost_match = False
+
+      for address in [account.billing_address, account.shipping_address]:
+        if address_match or address is None:
+          next
+
+        old_address = address.street
+        if len(new_address) > 0 and len(old_address) > 0:
+          address_match = (old_address in new_address) or (new_address in old_address)
+
+      name_match = len(new_name) > 0 and new_name == account.name
+
+      name_parts = account.name.split()
+      new_name_parts = new_name.split()
+      common_parts = [part for part in name_parts if part in new_name_parts]
+      name_almost_match = len(name_parts) >= 2 and len(common_parts) >= (0.8 * len(name_parts))
+
+      if (name_match or name_almost_match):
+        if address_match:
+          return account, True
+        else:
+          possible_match = account
+
+      if address_match:
+        possible_match = account
+
+    return possible_match, False
 
   @classmethod
   def get_or_create(cls, **kwargs):
