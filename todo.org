@@ -1,4 +1,3 @@
-* TODO Figure out how to match names across sheets and pick out duplicates
 * DONE Start a final sheet for contacts and start parsing individual sheets into it. Keep it alphabetized.
   CLOSED: [2014-07-05 Sat 14:35]
 #+BEGIN_SRC
@@ -25,10 +24,53 @@ exit()
   CLOSED: [2014-07-12 Sat 17:22]
 * DONE Make it renderable to an array
   CLOSED: [2014-07-12 Sat 17:22]
+* DONE Learn how to import donation totals
+  CLOSED: [2014-07-19 Sat 16:01]
+I'm going to have to use the custom object importer
+https://na10.salesforce.com/setup/dataImporter.app
 
+And learn how to model them first, so I'm going to first import 10
+accounts and 10 contacts.
+* DONE Test importing 10 accounts, 10 contacts
+  CLOSED: [2014-07-19 Sat 16:39]
+
+** Test one:
+
+first, import the contact CSV
+
+second, import the account CSV
+
+Ok, that wasn't terrible. However, it automatically took accounts and
+made new contacts for them if there as an "&" in their name.
+
+Part of the problem is that I tried to import based on the contact
+name, but I really wanted to only import based on the account name.
+** Solution
+Use the custom wizard. Import Accounts.csv first. Then import contacts.csv.
+* DONE Learn to model donations
+  CLOSED: [2014-07-19 Sat 16:56]
+
+"Opportunities"
+
+These are linked to account have a name, amount, close date, stage (Posted =
+100%) and probability (100)
+* DONE Test importing 10 donations
+  CLOSED: [2014-07-19 Sat 18:10]
+Had to use dataloader.io - signed in with Judy's salesforce account
 * TODO Import data sources to our two spreadsheets
 ** DONE Mailing list master page
    CLOSED: [2014-07-13 Sun 13:54]
-
-** TODO Mailing list confirmed page
 ** TODO 2013 tax report
+** TODO Mailing list confirmed page
+* TODO Figure out how to match names across sheets and pick out duplicates
+Given new_name and new_address
+
+#+BEGIN_SRC
+address_match = len(new_address) > 0 && len(old_address) > 0 && new_address.contains?(old_address) or old_address.contains?(new_address)
+
+name_match = len(new_name) > 0 && new_name == full_name
+
+name_almost_match = len(new_name) > 0 and new_name.contains?(last_name) and new_name.contains(first_name)
+#+END_SRC
+
+
