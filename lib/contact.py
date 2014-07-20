@@ -114,7 +114,7 @@ class Contact:
   def write_all():
       with open(Contact.data_location, 'wb') as csvfile:
           writer = csv.writer(csvfile)
-          writer.writerow(['Last Name', 'First Name', 'Honorific', 'Title', 'Email', 'Account Name', 'Home Address Type', 'Home Street', 'Home City', 'Home State', 'Home Zip', 'Home Country', 'Other Address Type', 'Other Street', 'Other City', 'Other State', 'Other Zip', 'Other Country'])
+          writer.writerow(['Last Name', 'First Name', 'Salutation', 'Title', 'Email', 'Account Name', 'Primary Address Type', 'Mailing Street', 'Mailing City', 'Mailing State', 'Mailing Zip', 'Home Country', 'Other Address Type', 'Other Street', 'Other City', 'Other State', 'Other Zip', 'Other Country'])
           for acct in sorted(Account.all_accounts.values(), key=lambda acct: acct.name):
             for contact in sorted(acct.all_contacts(), key=lambda contact: contact.last_name):
               writer.writerow([unicode(s).encode('utf-8') for s in contact.to_a()])
