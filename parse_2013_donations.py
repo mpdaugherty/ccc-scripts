@@ -7,6 +7,7 @@ import csv, re, os
 from ccc.lib.account import Account
 from ccc.lib.address import Address
 from ccc.lib.contact import Contact
+from ccc.lib.donation import Donation
 
 filename = '2013_individual_donations.csv'
 data_folder = os.path.dirname(os.path.realpath(__file__)) + '/data/todo/'
@@ -40,6 +41,7 @@ def main():
               print(row)
     #Account.write_all()
     #Contact.write_all()
+    Donation.write_all()
 
 def parse_row(row, unsure_rows):
     log_type = row[0]
@@ -54,10 +56,8 @@ def parse_row(row, unsure_rows):
     if 'Deposit' == log_type:
         contact, is_definite = Contact.fuzzy_match(donator_name, address)
         if is_definite:
-            #print('--------------------------------------------------------------------------------')
-            #print('Old Contact: {} {}, {}, {}'.format(contact.first_name, contact.last_name, contact.account.name, contact.primary_address.to_a()))
-            #print('New Contact: {}, {}'.format(donator_name, address))
             # Add a donation that matches this contact
+            account = contact.account
             pass
         elif None == contact: # ie there was not even a fuzzy contact match
             account, is_definite = Account.fuzzy_match(donator_name, address)
@@ -77,10 +77,20 @@ def parse_row(row, unsure_rows):
             #print('making new contact and account')
             if len(donator_name) == 0 or len(address) == 0:
                 unsure_rows.append(row + ['Empty name or address'])
-            pass
+            else:
+                unsure_rows.append(row + ['Did not match anyone; unhandled so far'])
         elif not(is_definite):
             match = contact or account
             unsure_rows.append(row + ['Possible match: {}'.format(match.to_a())])
+        elif is_definite:
+            Donation(account,
+                     amount=amount,
+                     close_date=date,
+                     description='{} - {}'.format(description, method),
+                     name='{} Donation {}'.format(donator_name, date))
+
+        else:
+            print('We should never get here. What happened? {}'.format(row))
     else:
         # I don't know what to do with General Journals or Bills
         unsure_rows.append(row + ['Unknown log type'])

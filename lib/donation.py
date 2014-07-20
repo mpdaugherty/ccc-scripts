@@ -17,8 +17,10 @@ class Donation:
 
   def __init__(self, account, **kwargs):
     self.account = account
-    for property in ['amount', 'name', 'close_date', 'description']
-      self.__dict__[property] = kwargs.get(property)
+    for property in ['amount', 'name', 'close_date', 'description']:
+        self.__dict__[property] = kwargs.get(property)
+    if isinstance(self.amount, basestring):
+        self.amount = float(self.amount.replace(',',''))
     self.account.add_donation(self)
 
   def to_a(self):
@@ -33,7 +35,7 @@ class Donation:
 
   @staticmethod
   def write_all():
-      with open(Contact.data_location, 'wb') as csvfile:
+      with open(Donation.data_location, 'wb') as csvfile:
           writer = csv.writer(csvfile)
           writer.writerow(['Amount', 'Account Name', 'Name', 'Close Date', 'Stage', 'Probability', 'Description'])
           for acct in sorted(Account.all_accounts.values(), key=lambda acct: acct.name):

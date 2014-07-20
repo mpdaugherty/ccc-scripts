@@ -23,8 +23,12 @@ class Account:
     self.billing_address = self.billing_address or Address()
     self.shipping_address = self.shipping_address or Address()
     self.contacts = {}
+    self.donations = []
 
     Account.all_accounts[self.name] = self
+
+  def add_donation(self, new_donation):
+    self.donations.append(new_donation)
 
   def add_contact(self, new_contact):
       contact = self.contacts.get(new_contact.full_name)
