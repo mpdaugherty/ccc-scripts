@@ -79,8 +79,35 @@ python -m ccc.parse_2013_donations
 ** TODO 2013 tax report
 ** TODO Mailing list confirmed page
 * DONE First import
-* TODO Move the existing 'final_donations' etc. spreadsheets
-* TODO Move the existing 2013_individual_donations spreadsheet and work only from the unsure spreadsheet for the next batch
-* TODO Have Judy clean the new unsure donations spreadsheet
+* DONE Move the existing 'final_donations' etc. spreadsheets
+  CLOSED: [2014-08-10 Sun 19:23]
+* DONE Move the existing 2013_individual_donations spreadsheet and work only from the unsure spreadsheet for the next batch
+  CLOSED: [2014-08-10 Sun 19:29]
+* DONE Have Judy clean the new unsure donations spreadsheet
+  CLOSED: [2014-08-10 Sun 19:29]
+* DONE Clean 2010 Individual Donations Sheet
+  CLOSED: [2014-09-07 Sun 14:48]
+* DONE Clean 2011 Individual Donations Sheet
+  CLOSED: [2014-09-07 Sun 14:48]
+* DONE Clean 2012 Individual Donations Sheet
+  CLOSED: [2014-09-07 Sun 14:48]
+* DONE Confirm that 2013 individual donations sheet has been imported
+  CLOSED: [2014-09-07 Sun 14:48]
+* DONE Confirm that 2014 donations have been imported. => Nope
+  CLOSED: [2014-09-07 Sun 14:48]
+* TODO Import 2010
+** DONE Export Contacts and Accounts from Salesforce as CSV
+   CLOSED: [2014-09-07 Sun 19:11]
+** DONE Download CSV
+   CLOSED: [2014-09-07 Sun 19:32]
+** TODO Import existing accounts into script
+#+BEGIN_SRC
+python -m ccc.parse_2010_donations
+#+END_SRC
+** TODO Import existing contacts into script
+** TODO Iterate over deposits. If contact or account exists, use that.
+* TODO Import 2011
+* TODO Import 2012
+* TODO Import 2014
 * TODO Do more importing with dataloader.io
 

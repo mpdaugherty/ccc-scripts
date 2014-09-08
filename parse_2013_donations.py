@@ -9,7 +9,7 @@ from ccc.lib.address import Address
 from ccc.lib.contact import Contact
 from ccc.lib.donation import Donation
 
-filename = '2013_individual_donations.csv'
+filename = '08_10_donations_new_contacts.csv'
 data_folder = os.path.dirname(os.path.realpath(__file__)) + '/data/todo/'
 
 temporary_filename = '2013_partial_donations.csv'
@@ -54,12 +54,14 @@ def parse_row(row, unsure_rows):
     amount = row[7]
 
     if 'Deposit' == log_type:
-        contact, is_definite = Contact.fuzzy_match(donator_name, address)
+        contact, is_definite = None, False#Contact.fuzzy_match(donator_name, address)
+        account = None
+
         if is_definite:
             # Add a donation that matches this contact
             account = contact.account
             pass
-        elif None == contact: # ie there was not even a fuzzy contact match
+        elif False:#None == contact: # ie there was not even a fuzzy contact match
             account, is_definite = Account.fuzzy_match(donator_name, address)
             if is_definite:
                 #print('found account match')
@@ -74,11 +76,11 @@ def parse_row(row, unsure_rows):
 
         if None == contact and None == account:
             # TODO Make a new contact / account and import it
-            #print('making new contact and account')
-            if len(donator_name) == 0 or len(address) == 0:
-                unsure_rows.append(row + ['Empty name or address'])
-            else:
-                unsure_rows.append(row + ['Did not match anyone; unhandled so far'])
+            print('making new contact and account')
+            #if len(donator_name) == 0 or len(address) == 0:
+            #    unsure_rows.append(row + ['Empty name or address'])
+            #else:
+            #    unsure_rows.append(row + ['Did not match anyone; unhandled so far'])
         elif not(is_definite):
             match = contact or account
             unsure_rows.append(row + ['Possible match: {}'.format(match.to_a())])
