@@ -67,10 +67,10 @@ def load_existing_data():
         reader.next()
         for row in reader:
             row = [field.strip().decode('utf-8') for field in row]
-            acct_id, name, billing_street, shipping_street = row
+            account_id, account_name, billing_street, shipping_street = row
             existing_accounts.append({
-                    'account_id': acct_id,
-                    'account_name': name,
+                    'account_id': account_id,
+                    'account_name': account_name,
                     'billing_street': billing_street,
                     'shipping_street': shipping_street
                     })
@@ -82,7 +82,7 @@ def load_existing_data():
         reader.next()
         for row in reader:
             row = [field.strip().decode('utf-8') for field in row]
-            account_id, accountt_name, contact_id, contact_name, mailing_street, other_street
+            account_id, account_name, contact_id, contact_name, mailing_street, other_street = row
             existing_contacts.append({
                     'id': contact_id,
                     'account_name': account_name,
