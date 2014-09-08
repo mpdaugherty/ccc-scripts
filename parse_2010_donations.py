@@ -17,8 +17,6 @@ def main():
 
     # Load a hash of all our existing Salesforce data
     existing_accounts, existing_contacts = load_existing_data()
-    print(existing_accounts)
-    raise('x')
 
     # Pull in the data
     with open(data_folder + filename, 'rb') as csvfile:
@@ -29,8 +27,7 @@ def main():
             row = [field.strip().decode('utf-8') for field in row]
             parse_row(existing_accounts, existing_contacts, row, sure_rows, unsure_rows)
 
-    # Write out all the maybes into their own spreadsheet
-
+    # Write out all the data that can be imported
     with open(data_folder + can_import_filename, 'wb') as csvfile:
           writer = csv.writer(csvfile)
           writer.writerow(['Date', 'Account ID', 'Memo', 'Amount'])
@@ -41,6 +38,7 @@ def main():
               print('#################### Could not encode this row ####################')
               print(row)
 
+    # Write out all unrecognized data into its own spreadsheet
     with open(data_folder + unknown_accounts_filename, 'wb') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(['Date', 'Company Name', 'Name', 'Address', 'Memo', 'Amount', 'Reason not imported'])
@@ -51,6 +49,51 @@ def main():
                 print('#################### Could not encode this row ####################')
                 print(row)
 
+def parse_row(existing_accounts, existing_contacts, row, sure_rows, unsure_rows):
+    txn_type, date, txn_num, company_name, full_name, address, memo, method, amount = row
+    amount = float(str(amount).replace(',','')) # The amounts in the original sheet are comma-delimited
+
+    acct, confident_in_acct = find_account(existing_accounts, full_name, company_name, address)
+    if confident_in_acct:
+        sure_rows.append([date, acct['account_id'], memo, amount])
+        return
+
+    # At this point, I know we're not confident in the account, so look for a contact that we are confident in
+    contact, confident_in_contact = find_contact(existing_contacts, full_name, company_name, address)
+    if confident_in_contact:
+        sure_rows.append([date, contact['account_id'], memo, amount])
+        return
+
+    # Now, we're not confident in the account or the contact
+    reason = ''
+    if None is not acct:
+        reason = 'Possible account: {}'.format(acct['account_name'])
+    elif None is not contact:
+        reason = 'Possible contact: {} ({})'.format(contact['contact_name'], contact['account_name'])
+    else:
+        reason = 'No possible match'
+
+    unsure_rows.append([
+            date,
+            company_name,
+            full_name,
+            address,
+            memo,
+            amount,
+            reason
+            ])
+
+def find_account(existing_accounts, full_name, company_name, address):
+    for acct in existing_accounts:
+        if acct['account_name'] == full_name:
+            return acct, True
+        elif acct['account_name'] == company_name:
+            return acct, True
+
+    return None, False
+
+def find_contact(existing_contacts, full_name, company_name, address):
+    return None, False
 
 def load_existing_data():
     accounts_filename = 'accounts.csv'
