@@ -95,19 +95,29 @@ python -m ccc.parse_2013_donations
   CLOSED: [2014-09-07 Sun 14:48]
 * DONE Confirm that 2014 donations have been imported. => Nope
   CLOSED: [2014-09-07 Sun 14:48]
-* TODO Import 2010
+* DONE Import 2010 - first pass
+  CLOSED: [2014-09-07 Sun 21:31]
 ** DONE Export Contacts and Accounts from Salesforce as CSV
    CLOSED: [2014-09-07 Sun 19:11]
 ** DONE Download CSV
    CLOSED: [2014-09-07 Sun 19:32]
-** TODO Import existing accounts into script
+** DONE Import existing accounts into script
+   CLOSED: [2014-09-07 Sun 21:31]
 #+BEGIN_SRC
 python -m ccc.parse_2010_donations
 #+END_SRC
-** TODO Import existing contacts into script
-** TODO Iterate over deposits. If contact or account exists, use that.
-* TODO Import 2011
-* TODO Import 2012
-* TODO Import 2014
-* TODO Do more importing with dataloader.io
+** DONE Import existing contacts into script
+   CLOSED: [2014-09-07 Sun 21:31]
+** DONE Iterate over deposits. If contact or account exists, use that.
+   CLOSED: [2014-09-07 Sun 21:31]
+* DONE Import 2011 - first pass
+  CLOSED: [2014-09-07 Sun 21:31]
+* DONE Import 2012 - first pass
+  CLOSED: [2014-09-07 Sun 21:31]
+* DONE Import 2014 - first pass
+  CLOSED: [2014-09-07 Sun 21:31]
+* TODO Second pass
+** TODO Manually match unknown with accounts
+** TODO Add new accounts for new people
+
 
