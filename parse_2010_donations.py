@@ -73,15 +73,7 @@ def parse_row(existing_accounts, existing_contacts, row, sure_rows, unsure_rows)
     else:
         reason = 'No possible match'
 
-    unsure_rows.append([
-            date,
-            company_name,
-            full_name,
-            address,
-            memo,
-            amount,
-            reason
-            ])
+    unsure_rows.append(row + [reason])
 
 def find_account(existing_accounts, full_name, company_name, address):
     for acct in existing_accounts:
@@ -93,6 +85,12 @@ def find_account(existing_accounts, full_name, company_name, address):
     return None, False
 
 def find_contact(existing_contacts, full_name, company_name, address):
+    for contact in existing_contacts:
+        if contact['contact_name'] == full_name:
+            return contact, True
+        elif contact['contact_name'] == company_name:
+            return contact, True
+
     return None, False
 
 def load_existing_data():
