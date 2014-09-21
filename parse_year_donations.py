@@ -5,7 +5,7 @@ from __future__ import print_function
 
 import csv, re, os
 
-year = 2014
+year = 'all'
 
 filename = 'donations_{}.csv'.format(year)
 data_folder = os.path.dirname(os.path.realpath(__file__)) + '/data/todo/'
@@ -52,7 +52,7 @@ def main():
                 print(row)
 
 def parse_row(existing_accounts, existing_contacts, row, sure_rows, unsure_rows):
-    txn_type, date, txn_num, company_name, full_name, address, memo, method, amount = row
+    txn_type, date, txn_num, company_name, full_name, address, memo, method, amount, extra = row
     amount = float(str(amount).replace(',','')) # The amounts in the original sheet are comma-delimited
 
     acct, confident_in_acct = find_account(existing_accounts, full_name, company_name, address)

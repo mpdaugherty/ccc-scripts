@@ -15,7 +15,7 @@ class Account:
   # shipping_address
 
   all_accounts = {}
-  data_location = os.path.dirname(os.path.realpath(__file__)) + '/../final_data/final_accounts.csv'
+  data_location = os.path.dirname(os.path.realpath(__file__)) + '/../data/final_accounts.csv'
 
   def __init__(self, **kwargs):
     for property in ['name', 'type', 'phone', 'billing_address', 'shipping_address']:

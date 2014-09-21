@@ -22,7 +22,7 @@ class Contact:
 
   all_contacts = [] # Utility for searching, nothing more
 
-  data_location = os.path.dirname(os.path.realpath(__file__)) + '/../final_data/final_contacts.csv'
+  data_location = os.path.dirname(os.path.realpath(__file__)) + '/../data/final_contacts.csv'
 
   def __init__(self, account, **kwargs):
     self.account = account
