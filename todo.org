@@ -116,9 +116,13 @@ python -m ccc.parse_2010_donations
   CLOSED: [2014-09-07 Sun 21:31]
 * DONE Import 2014 - first pass
   CLOSED: [2014-09-07 Sun 21:31]
-* TODO Second pass
+* DONE Second pass
+  CLOSED: [2014-09-21 Sun 13:20]
 ** DONE Manually match unknown with accounts
    CLOSED: [2014-09-08 Mon 09:36]
-** TODO Add new accounts for new people in donations_all.csv
+** DONE Add new accounts for new people in donations_all.csv
+   CLOSED: [2014-09-21 Sun 13:20]
 
 
+
+* TODO Manually import the rest of the donations
